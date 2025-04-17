@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 #upload Data
-Data = pickle.load(open(r"D:\course\Data science epsilon (Fanan edition)\projects epsilon\project 1\prroject expalin & pipeline\Zomato_resturant_yousefeldardery.sav",'rb'))
+Data = pickle.load(open("Zomato_resturant_yousefeldardery.sav", 'rb'))
 
 st.title("Zomato Restaurant Recommendation System")
 st.header("Find the best restaurant for you!")
