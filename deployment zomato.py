@@ -8,7 +8,7 @@ import numpy as np
 # -------------------------------
 # Load model from Google Drive
 # -------------------------------
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1uNH4KH7F31dp_rpebheBWGZGs3qxseRL"
+MODEL_URL = "https://drive.google.com/file/d/1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj/view?usp=drive_link"
 
 @st.cache_resource
 def load_model():
