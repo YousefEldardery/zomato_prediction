@@ -1,8 +1,8 @@
-streamlit
-pandas
-numpy
-seaborn
-plotly
-scikit-learn
-category_encoders
-xgboost
+streamlit==1.44.1
+pandas==2.2.3
+numpy==2.2.4
+seaborn==0.13.2
+plotly==6.0.1
+scikit-learn==1.6.1
+category_encoders==2.8.1
+xgboost==3.0.0
