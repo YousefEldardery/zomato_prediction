@@ -12,27 +12,26 @@ FILE_ID = "1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
 MODEL_URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
 MODEL_FILENAME = "Final_model.pkl"
 
+
 @st.cache_resource
 def load_model():
-    if not os.path.exists(MODEL_FILENAME):
-        try:
-            st.info("Downloading model from Google Drive...")
-            response = requests.get(MODEL_URL, stream=True)
-            if response.status_code == 200:
-                with open(MODEL_FILENAME, "wb") as f:
-                    for chunk in response.iter_content(1024):
-                        f.write(chunk)
-                st.success("Model downloaded successfully.")
-            else:
-                st.error(f"Failed to download model. Status code: {response.status_code}")
-                return None
-        except Exception as e:
-            st.error(f"Error downloading model: {e}")
-            return None
-    with open(MODEL_FILENAME, "rb") as f:
-        model = pickle.load(f)
-    return model
+    model_path = "Final_Model.pkl"
 
+    if not os.path.exists(model_path):
+        st.error(f"Model file not found: {model_path}")
+        return None
+
+    try:
+        with open(model_path, "rb") as f:
+            model = pickle.load(f)
+    except Exception as e1:
+        try:
+            model = joblib.load(model_path)
+        except Exception as e2:
+            st.error(f"Failed to load model.\nPickle error: {e1}\nJoblib error: {e2}")
+            return None
+
+    return model
 # -------------------------------
 # Streamlit UI
 # -------------------------------
