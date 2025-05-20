@@ -8,11 +8,11 @@ import numpy as np
 # -------------------------------
 # Load model from Google Drive
 # -------------------------------
-MODEL_URL = "https://drive.google.com/file/d/1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj/view?usp=drive_link"
+MODEL_URL = "https://drive.google.com/drive/folders/1kexsaJbdxBzpd2GFXAlC7RD0zpsmagDW?dmr=1&ec=wgc-drive-globalnav-goto"
 
 @st.cache_resource
 def load_model():
-    model_path = "Zomato_resturant_yousefeldardery.sav"
+    model_path = "Final_model.pkl"
     if not os.path.exists(model_path):
         response = requests.get(MODEL_URL)
         if response.status_code == 200:
