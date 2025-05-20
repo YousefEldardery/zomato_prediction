@@ -8,24 +8,36 @@ import numpy as np
 # -------------------------------
 # Load model from Google Drive
 # -------------------------------
-MODEL_URL = "https://drive.google.com/drive/folders/1kexsaJbdxBzpd2GFXAlC7RD0zpsmagDW?dmr=1&ec=wgc-drive-globalnav-goto"
+FILE_ID = "1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
+MODEL_URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
+MODEL_FILENAME = "Final_model.pkl"
 
 @st.cache_resource
 def load_model():
-    model_path = "Final_model.pkl"
-    if not os.path.exists(model_path):
-        response = requests.get(MODEL_URL)
-        if response.status_code == 200:
-            with open(model_path, "wb") as f:
-                f.write(response.content)
-        else:
-            st.error("Failed to download model. Check the link.")
+    if not os.path.exists(MODEL_FILENAME):
+        try:
+            st.info("Downloading model from Google Drive...")
+            response = requests.get(MODEL_URL, stream=True)
+            if response.status_code == 200:
+                with open(MODEL_FILENAME, "wb") as f:
+                    for chunk in response.iter_content(1024):
+                        f.write(chunk)
+                st.success("Model downloaded successfully.")
+            else:
+                st.error(f"Failed to download model. Status code: {response.status_code}")
+                return None
+        except Exception as e:
+            st.error(f"Error downloading model: {e}")
             return None
-    with open(model_path, "rb") as f:
+    with open(MODEL_FILENAME, "rb") as f:
         model = pickle.load(f)
     return model
 
 model = load_model()
+
+if model:
+    st.success("Model loaded and ready for use.")
+
 
 # -------------------------------
 # Streamlit UI
