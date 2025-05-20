@@ -103,6 +103,8 @@ data_frame_deploy = pd.DataFrame({
 # -------------------------------
 Confirm = st.sidebar.button("Click to Predict")
 
+model = load_model()
+
 if Confirm and model:
     result = model.predict(data_frame_deploy)
     if result[0] == 1:
