@@ -33,12 +33,6 @@ def load_model():
         model = pickle.load(f)
     return model
 
-model = load_model()
-
-if model:
-    st.success("Model loaded and ready for use.")
-
-
 # -------------------------------
 # Streamlit UI
 # -------------------------------
