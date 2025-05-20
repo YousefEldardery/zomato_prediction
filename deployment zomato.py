@@ -10,28 +10,33 @@ import gdown
 # Load model from Google Drive
 # -------------------------------
 
+import streamlit as st
+import gdown
+import os
+import pickle
+
+FILE_ID = "1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
+MODEL_FILENAME = "Final_model.pkl"
+
 @st.cache_resource
 def load_model():
-    model_path = "Final_Model.pkl"
-    gdrive_url = "https://drive.google.com/uc?id=1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
-
-    # Download the model if it doesn't exist
-    if not os.path.exists(model_path):
+    if not os.path.exists(MODEL_FILENAME):
         try:
-            gdown.download(gdrive_url, model_path, quiet=False)
+            st.info("Downloading model from Google Drive using gdown...")
+            gdown.download(id=FILE_ID, output=MODEL_FILENAME, quiet=False)
+            st.success("Model downloaded successfully.")
         except Exception as e:
-            st.error(f"Error downloading the model: {e}")
+            st.error(f"Failed to download the model: {e}")
             return None
-
-    # Load the model
-    try:
-        with open(model_path, "rb") as f:
-            model = pickle.load(f)
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
-
+    with open(MODEL_FILENAME, "rb") as f:
+        model = pickle.load(f)
     return model
+
+model = load_model()
+
+if model:
+    st.success("Model loaded and ready for use.")
+
 
 # -------------------------------
 # Streamlit UI
