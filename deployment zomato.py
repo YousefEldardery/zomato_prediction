@@ -4,34 +4,35 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
+import gdown
 
 # -------------------------------
 # Load model from Google Drive
 # -------------------------------
-FILE_ID = "1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
-MODEL_URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
-MODEL_FILENAME = "Final_model.pkl"
-
 
 @st.cache_resource
 def load_model():
     model_path = "Final_Model.pkl"
+    gdrive_url = "https://drive.google.com/uc?id=1sJR5gmNxfnu8dysxVt1bf5sOEW8Qg0Hj"
 
+    # Download the model if it doesn't exist
     if not os.path.exists(model_path):
-        st.error(f"Model file not found: {model_path}")
-        return None
+        try:
+            gdown.download(gdrive_url, model_path, quiet=False)
+        except Exception as e:
+            st.error(f"Error downloading the model: {e}")
+            return None
 
+    # Load the model
     try:
         with open(model_path, "rb") as f:
             model = pickle.load(f)
-    except Exception as e1:
-        try:
-            model = joblib.load(model_path)
-        except Exception as e2:
-            st.error(f"Failed to load model.\nPickle error: {e1}\nJoblib error: {e2}")
-            return None
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
 
     return model
+
 # -------------------------------
 # Streamlit UI
 # -------------------------------
